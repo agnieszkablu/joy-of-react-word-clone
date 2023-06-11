@@ -1,16 +1,14 @@
 import { format } from 'prettier';
 import React from 'react';
 
-function runGuess(guess) {
-  console.info({ guess });
-}
-
-function GuessInput() {
+function GuessInput({ guesses, setGuesses }) {
   const [guess, setGuess] = React.useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
-    runGuess(guess);
+    const nextGuesses = [...guesses];
+    nextGuesses.push(guess);
+    setGuesses(nextGuesses);
     setGuess('');
   }
 
