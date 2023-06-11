@@ -1,15 +1,14 @@
 import { format } from 'prettier';
 import React from 'react';
 
-function GuessInput({ guesses, setGuesses }) {
-  const [guess, setGuess] = React.useState('');
+function GuessInput({ handleSubmitGuess }) {
+  //tentative means temporary
+  const [tentativeGuess, setTentativeGuess] = React.useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
-    const nextGuesses = [...guesses];
-    nextGuesses.push(guess);
-    setGuesses(nextGuesses);
-    setGuess('');
+    handleSubmitGuess(tentativeGuess);
+    setTentativeGuess('');
   }
 
   return (
@@ -18,10 +17,10 @@ function GuessInput({ guesses, setGuesses }) {
       <input
         name='guess'
         id='guess-input'
-        value={guess}
+        value={tentativeGuess}
         onChange={(e) => {
           const nextGuess = e.target.value.toUpperCase();
-          setGuess(nextGuess);
+          setTentativeGuess(nextGuess);
         }}
         pattern='[a-zA-Z]{5}'
         type='text'
