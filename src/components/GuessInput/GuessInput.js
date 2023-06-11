@@ -8,26 +8,27 @@ function runGuess(guess) {
 function GuessInput() {
   const [guess, setGuess] = React.useState('');
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    runGuess(guess);
+    setGuess('');
+  }
+
   return (
-    <form
-      className='guess-input-wrapper'
-      onSubmit={(e) => {
-        e.preventDefault();
-        runGuess(guess);
-        setGuess('');
-      }}
-    >
+    <form className='guess-input-wrapper' onSubmit={handleSubmit}>
       <label htmlFor='guess-input'>Enter Guess:</label>
       <input
         name='guess'
         id='guess-input'
-        value={guess.toUpperCase()}
+        value={guess}
         onChange={(e) => {
-          setGuess(e.target.value);
+          const nextGuess = e.target.value.toUpperCase();
+          setGuess(nextGuess);
         }}
-        pattern='\w{5}'
+        pattern='[a-zA-Z]{5}'
         type='text'
-        title="5 uppercase letters" 
+        title='5 uppercase letters'
+        required
       />
     </form>
   );
