@@ -6,6 +6,7 @@ import { NUM_OF_GUESSES_ALLOWED } from '../../constants';
 import GuessInput from '../GuessInput';
 import GuessResults from '../GuessResults';
 import Banner from '../Banner';
+import Keyboard from '../Keyboard';
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -38,6 +39,8 @@ function Game() {
         handleSubmitGuess={handleSubmitGuess}
         isDisabled={gameStatus !== 'running'}
       />
+      <Keyboard />
+
       {gameStatus === 'won' && (
         <Banner className='happy'>
           <strong>Congratulations!</strong> Got it in{' '}
