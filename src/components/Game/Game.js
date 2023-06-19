@@ -18,17 +18,27 @@ function Game() {
     setGuesses([...guesses, guess]);
   }
 
+  let gameStatus = 'running';
+  if (guesses.includes(answer)) {
+    gameStatus = 'won';
+  } else if (guesses.length > 5) {
+    gameStatus = 'lost';
+  }
+
   return (
     <>
       <GuessResults answer={answer} guesses={guesses} />
-      <GuessInput handleSubmitGuess={handleSubmitGuess} isDisabled={guesses.includes(answer) || guesses.length > 5} />
-      {guesses.includes(answer) && (
+      <GuessInput
+        handleSubmitGuess={handleSubmitGuess}
+        isDisabled={gameStatus !== 'running'}
+      />
+      {gameStatus === 'won' && (
         <Banner className='happy'>
           <strong>Congratulations!</strong> Got it in {}
           <strong>{guesses.length} guesses</strong>.
         </Banner>
       )}
-      {guesses.length > 5 && (
+      {gameStatus === 'lost' && (
         <Banner className='sad'>
           Sorry, the correct answer is <strong>{answer}</strong>.
         </Banner>
