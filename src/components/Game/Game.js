@@ -2,6 +2,7 @@ import React from 'react';
 
 import { sample } from '../../utils';
 import { WORDS } from '../../data';
+import { NUM_OF_GUESSES_ALLOWED } from '../../constants';
 import GuessInput from '../GuessInput';
 import GuessResults from '../GuessResults';
 import Banner from '../Banner';
@@ -13,16 +14,21 @@ console.info({ answer });
 
 function Game() {
   const [guesses, setGuesses] = React.useState([]);
+  const [gameStatus, setGameStatus] = React.useState('running');
 
   function handleSubmitGuess(guess) {
-    setGuesses([...guesses, guess]);
-  }
+    //use nextGuesses so react app knows that the component changed and needs rerender
+    // that way NUM_OF_GUESSES_ALLOWED will be equal to the final nextGuesses.length
+    const nextGuesses = [...guesses, guess];
 
-  let gameStatus = 'running';
-  if (guesses.includes(answer)) {
-    gameStatus = 'won';
-  } else if (guesses.length > 5) {
-    gameStatus = 'lost';
+    // used guess.toUpperCase() to prevent some possible bugs
+    if (guess.toUpperCase() === answer) {
+      setGameStatus('won');
+    } else if (nextGuesses.length >= NUM_OF_GUESSES_ALLOWED) {
+      setGameStatus('lost');
+    }
+
+    setGuesses(nextGuesses);
   }
 
   return (
@@ -34,7 +40,7 @@ function Game() {
       />
       {gameStatus === 'won' && (
         <Banner className='happy'>
-          <strong>Congratulations!</strong> Got it in {}
+          <strong>Congratulations!</strong> Got it in{' '}
           <strong>{guesses.length} guesses</strong>.
         </Banner>
       )}
