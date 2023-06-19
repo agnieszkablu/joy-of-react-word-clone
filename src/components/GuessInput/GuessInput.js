@@ -1,7 +1,7 @@
 import { format } from 'prettier';
 import React from 'react';
 
-function GuessInput({ handleSubmitGuess }) {
+function GuessInput({ handleSubmitGuess, isDisabled }) {
   //tentative means temporary
   const [tentativeGuess, setTentativeGuess] = React.useState('');
 
@@ -26,6 +26,7 @@ function GuessInput({ handleSubmitGuess }) {
         type='text'
         title='5 uppercase letters'
         required
+        disabled={isDisabled}
       />
     </form>
   );
