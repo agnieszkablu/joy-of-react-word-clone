@@ -39,7 +39,8 @@ function Game() {
         handleSubmitGuess={handleSubmitGuess}
         isDisabled={gameStatus !== 'running'}
       />
-      <Keyboard />
+
+      <Keyboard answer={answer} guesses={guesses} />
 
       {gameStatus === 'won' && (
         <Banner className='happy'>
