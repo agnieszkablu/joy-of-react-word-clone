@@ -8,14 +8,14 @@ import GuessResults from '../GuessResults';
 import Banner from '../Banner';
 import Keyboard from '../Keyboard';
 
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
-
 function Game() {
+  // Pick a random word on every pageload.
+
+  const [answer, setAnswer] = React.useState(() => sample(WORDS));
   const [guesses, setGuesses] = React.useState([]);
   const [gameStatus, setGameStatus] = React.useState('running');
+
+  console.info({ answer });
 
   function handleSubmitGuess(guess) {
     //use nextGuesses so react app knows that the component changed and needs rerender
@@ -32,6 +32,13 @@ function Game() {
     setGuesses(nextGuesses);
   }
 
+  function handleReset() {
+    const newAnswer = sample(WORDS);
+    setAnswer(newAnswer);
+    setGuesses([]);
+    setGameStatus('running');
+  }
+
   return (
     <>
       <GuessResults answer={answer} guesses={guesses} />
@@ -46,11 +53,13 @@ function Game() {
         <Banner className='happy'>
           <strong>Congratulations!</strong> Got it in{' '}
           <strong>{guesses.length} guesses</strong>.
+          <button className='button-reset' onClick={handleReset}>Reset</button>
         </Banner>
       )}
       {gameStatus === 'lost' && (
         <Banner className='sad'>
           Sorry, the correct answer is <strong>{answer}</strong>.
+          <button className='button-reset' onClick={handleReset}>Reset</button>
         </Banner>
       )}
     </>
